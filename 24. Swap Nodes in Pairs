@@ -1,0 +1,21 @@
+class Solution(object):
+    def swapPairs(self, head):
+        """
+        :type head: Optional[ListNode]
+        :rtype: Optional[ListNode]
+        """
+        if head is None or head.next is None:
+            return head
+        pre = head 
+        cur = head.next
+        fut = head.next.next
+
+        cur.next = pre
+        pre.next = self.swapPairs(fut)
+
+        return cur
+
+Notes:
+the key is to understand the recursive nature of the function and how the nodes are swapped in pairs.
+
+return cur
