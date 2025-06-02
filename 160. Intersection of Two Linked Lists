@@ -31,3 +31,13 @@ Notes:
 work through A then B, must meet work thorugh B then A
 
 The code above is redundant
+
+pointer_a = pointer_a.next if pointer_a else headB
+A if condition else B
+
+pointer_a = pointer_a.next if pointer_a else headB
+这句代码的意思是：
+
+如果 pointer_a 不为 None（也就是还没走到链表 A 的末尾），就将 pointer_a 移动到下一个节点，即 pointer_a = pointer_a.next。
+
+如果 pointer_a 是 None（即刚好走到了链表 A 的末尾），就把它重置到链表 B 的头部 headB，从链表 B 开始继续遍历。
