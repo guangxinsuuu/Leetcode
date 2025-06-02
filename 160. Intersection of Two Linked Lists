@@ -1,0 +1,33 @@
+class Solution(object):
+    def getIntersectionNode(self, headA, headB):
+        """
+        :type head1, head1: ListNode
+        :rtype: ListNode
+        """
+        # two pointers are quink than hashmap
+        pointer_a = headA
+        pointer_b = headB
+
+        # while pointer_a != pointer_b:
+        #     if pointer_a:
+        #         pointer_a = pointer_a.next
+        #     if not pointer_a:
+        #         pointer_a = headB
+        #     if pointer_b:
+        #         pointer_b = pointer_b.next
+        #     if not pointer_b:
+        #         pointer_b = headA
+        # return pointer_a
+        while pointer_a != pointer_b:
+            # When pointer_a reaches the end of list A, start from headB
+            pointer_a = pointer_a.next if pointer_a else headB
+            # When pointer_b reaches the end of list B, start from headA
+            pointer_b = pointer_b.next if pointer_b else headA
+        
+        return pointer_a
+
+Notes:
+
+work through A then B, must meet work thorugh B then A
+
+The code above is redundant
