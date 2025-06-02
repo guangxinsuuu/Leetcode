@@ -1,0 +1,55 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution(object):
+    def removeElements(self, head, val):
+        """
+        :type head: Optional[ListNode]
+        :type val: int
+        :rtype: Optional[ListNode]
+        """
+        dummy_head = ListNode(next=head)        #Initialization
+        node = dummy_head
+        while node.next:
+            if node.next.val == val:
+                node.next = node.next.next
+            else:
+                node = node.next
+        return dummy_head.next 
+
+
+
+不可以去掉 node = dummy_head，因为它是遍历链表的关键部分。dummy_head 是一个虚拟节点，它指向链表的头节点，而 node 是用来遍历链表的指针。我们需要通过 node 来遍历链表并执行删除操作
+步骤分析：
+初始状态：
+
+dummy_head 被创建，它的 next 指向链表的第一个节点。
+
+node 初始时指向 dummy_head，即 node = dummy_head。
+
+在 while 循环中：
+
+每次 node 会向下遍历链表，node = node.next 会让 node 更新为下一个节点。
+
+重要的是，node 会指向 dummy_head 之后的节点，而 dummy_head 本身保持不变。
+
+删除操作：
+
+如果 node.next.val == val，就删除该节点。即通过 node.next = node.next.next 跳过当前节点。
+
+如果没有删除节点，node 向下移动，继续检查下一个节点。
+
+返回新链表：
+
+最后，dummy_head.next 会指向链表的新头节点（如果头节点被删除，dummy_head.next 会更新为新的头节点）。
+
+dummy_head 始终指向链表的起始位置，而 node 是用来遍历和删除节点的指针。
+
+总结：
+dummy_head 不会改变：它作为链表的虚拟头节点始终保持不变，帮助处理边缘情况，尤其是头节点的删除。
+
+node 会改变：它是用来遍历链表的指针，每次更新为 node.next，在 while 循环中向下移动，直到遍历完整个链表。
+
+因此，dummy_head 始终不变，而 node 则用来遍历和操作链表中的节点。
