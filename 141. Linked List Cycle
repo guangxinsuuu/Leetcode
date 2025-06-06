@@ -1,0 +1,53 @@
+version 1: has errors in some cases:
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def hasCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: bool
+        """
+        slow = ListNode(next=head)
+        quick = ListNode(next=head)
+        while slow.next and quick.next.next:
+            if slow.next == quick.next.next:
+                return True
+            slow = slow.next
+            quick = quick.next.next
+        return False 
+
+Solution:
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def hasCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: bool
+        """
+        slow = head
+        fast = head
+
+        # Only advance while 'fast' and 'fast.next' are not None
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                return True
+
+        return False
+        
+
+note:
+dummy_head is useful but not always
+
+错误是因为你在循环条件里写了 while slow.next and quick.next.next:，当链表长度很小时会出现 quick.next 为 None 的情况，再访问 quick.next.next 就会触发 “NoneType 对象没有属性 ‘next’” 的异常
