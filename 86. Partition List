@@ -1,0 +1,35 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution(object):
+    def partition(self, head, x):
+        """
+        :type head: Optional[ListNode]
+        :type x: int
+        :rtype: Optional[ListNode]
+        """
+        small = ListNode(-1)
+        large = ListNode(-1)
+        small_head, large_head = small, large
+
+        while head:
+            if head.val < x:
+                small.next = head
+                small = small.next
+            else:
+                large.next = head
+                large = large.next
+            head = head.next
+        # 遍历结束后断开 large 链表的后续连接，避免环
+        large.next = None
+        small.next = large_head.next
+        return small_head.next 
+
+note:
+
+1. index of the dummy_head is important
+
+2. # 遍历结束后断开 large 链表的后续连接，避免环
+        large.next = None
