@@ -1,0 +1,19 @@
+class Solution(object):
+    def removeElement(self, nums, val):
+        """
+        :type nums: List[int]
+        :type val: int
+        :rtype: int
+        """
+        slow = 0
+        quick = 0
+        while quick <= len(nums)-1:
+            if nums[quick] != val:
+                nums[slow] = nums[quick]
+                slow += 1
+                
+            quick+=1  
+        return slow
+
+note:
+ if nums[quick] != val:
