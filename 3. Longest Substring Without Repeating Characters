@@ -1,0 +1,25 @@
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        slow = 0
+        quick = 0
+        res = set()                                  Note1: no duplicate
+        max_len = 0
+        while quick < len(s):
+            if s[quick] not in res:
+                res.add(s[quick])                Note2: only add new
+                quick+=1                          Note3: quick only changed when it is been added
+                max_len=max(max_len,len(res))
+                
+            else:
+                
+                res.remove(s[slow])              Note4: remove to ensure slow is forward
+                slow += 1
+                                                  Note5: quick does not change here, and the window is changable
+        return max_len
+
+            
+        
