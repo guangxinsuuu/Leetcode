@@ -1,0 +1,46 @@
+note:
+
+1. when we meet the words match, we should consider the usage of ord(), and tranfer the words as nums, especially when the match is unordered
+
+class Solution(object):
+    def findAnagrams(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: List[int]
+        """
+        if len(s) < len(p):
+            return []
+        ls = [0]*26
+        lp = [0]*26
+        a_ord = ord('a')
+        res = []
+
+        slow = 0
+        quick = len(p)-1
+        for i in p:
+            lp[ord(i)-a_ord]+=1
+        
+
+        for i in range(len(p)):
+            ls[ord(s[i])-a_ord]+=1
+        if ls == lp:
+            res.append(0)
+        while quick < len(s)-1:
+            ls[ord(s[slow])-a_ord] -= 1
+            #ls[ord(s[quick])-a_ord] -= 1           note: which should be deleted and which should be added are always clearly consdered
+            slow += 1
+            quick += 1
+            #ls[ord(s[slow])-a_ord] += 1
+            ls[ord(s[quick])-a_ord] += 1
+            if ls == lp:
+                res.append(slow)
+        return res
+
+
+
+       
+        
+
+        
+        
