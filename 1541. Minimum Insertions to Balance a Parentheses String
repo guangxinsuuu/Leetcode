@@ -1,0 +1,27 @@
+class Solution(object):
+    def minInsertions(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        left = 0
+        right = 0
+        for i in range(len(s)):
+            
+
+            if s[i] == '(':
+                right += 2
+                if right % 2 == 1: #################### Note: for local fix problems: "(())) here (()))()())))"
+                    # 插入一个右括号
+                    left += 1
+                    right -= 1
+            
+            if s[i] == ')':
+                right -= 1
+                if right == -1:
+                    left += 1
+                    right = 1
+        return left+right
+
+note:
+local calculate and get the whole calculate reseults: (()))) then (())))(
