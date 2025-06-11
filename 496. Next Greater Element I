@@ -15,4 +15,4 @@ class Solution(object):
                 load_dict[s_value] = num
             stack.append(num)
 
-        return [load_dict.get(x,-1) for x in nums1]
+        return [load_dict.get(x,-1) for x in nums1] #note: if exist x, else -1
