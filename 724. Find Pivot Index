@@ -1,0 +1,19 @@
+class Solution:
+    def pivotIndex(self, nums: List[int]) -> int:
+        sum_value = sum(nums)
+        value = 0
+
+        if sum_value - nums[0] == 0:
+            return 0
+
+        for i in range(len(nums)):
+            if sum_value - nums[0] == 0:
+                return 0
+            if i > 0:
+                value += nums[i-1]
+            if value == (sum_value-nums[i])/2:
+                return i
+            if i == len(nums)-1 and value == 0:
+                return i
+        return -1
+#### the code should be improved
