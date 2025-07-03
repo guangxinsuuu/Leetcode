@@ -1,0 +1,14 @@
+class Solution:
+    def findDifference(self, nums1: List[int], nums2: List[int]) -> List[List[int]]:
+        # num1 = set(nums1)
+        # num2 = set(nums2)
+        # for num in num1:                              #Note: error happened here, num1 is dynamic changed!!!!
+        #     if num in num2:
+        #         num1.remove(num)
+        #         num2.remove(num)
+        # return [list[num1],list[num2]]
+        s1, s2 = set(nums1), set(nums2)       # 去重之后的两个集合
+        only1 = s1 - s2                       # 只在 nums1 中出现
+        only2 = s2 - s1                       # 只在 nums2 中出现
+        return [list(only1), list(only2)]
+        
