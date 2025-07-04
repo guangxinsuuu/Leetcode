@@ -1,0 +1,25 @@
+class Solution:
+    def maxVowels(self, s: str, k: int) -> int:
+        slow = 0
+        quick = -1
+        res = 0
+        result = 0
+        vowel = ['a','e','i','o','u']
+        if len(s) < k:
+            return
+        for num in range(k):
+            if s[num] in vowel:
+                res+=1
+            quick+=1
+        result = max(result,res)
+        while quick < len(s)-1:
+            
+            quick += 1
+            if s[slow] in vowel:                    #window: we onle need to care about the removed slow one and new added one
+                res -= 1
+            if s[quick] in vowel:
+                res += 1
+            result = max(result,res)
+            slow += 1
+        return result
+        
