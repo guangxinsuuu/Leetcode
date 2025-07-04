@@ -1,0 +1,153 @@
+Below is a **one-page “cheat sheet”** of the *average-case* time / space complexity for the **most-used operations in Python’s standard library** (CPython ≥ 3.10).  All costs are big-O unless otherwise noted; “amort.” = amortised; “n” = container size; “k” = slice length; “m, p” = argument sizes.
+
+---
+
+### 1  Built-in *list*  ( dynamic array )
+
+| Operation                       | Complexity            | Notes                      |
+| ------------------------------- | --------------------- | -------------------------- |
+| `lst[i]` / `lst[i]=x`           | **Θ(1)**              | Direct index lookup/store. |
+| `lst.append(x)`                 | **O(1)** amort.       | Occasional resize → O(n).  |
+| `lst.pop()` / `lst.pop(-1)`     | **O(1)**              | Remove last element.       |
+| `lst.pop(i)` / `del lst[i]`     | **O(n)**              | Left-shift tail.           |
+| `lst.insert(i,x)`               | **O(n)**              | Right-shift tail.          |
+| `lst.extend(iterable)`          | **O(len(iter.))**     | Bulk resize once.          |
+| `lst.remove(x)` / `in`          | **O(n)**              | Linear search.             |
+| `lst[:]` (shallow copy)         | **O(n)** time & space |                            |
+| Slice assignment `lst[a:b]=sub` | **O(n + len(sub))**   |                            |
+| `len(lst)`                      | **O(1)**              | Stored field.              |
+
+---
+
+### 2  *tuple*
+
+Immutable; same indexing **Θ(1)**, but *no* mutating ops. Copy = reference.
+
+---
+
+### 3  *dict*  ( hash table )
+
+| Operation                    | Avg. time             | Space            |          |
+| ---------------------------- | --------------------- | ---------------- | -------- |
+| Lookup `d[k]`, `k in d`      | **O(1)**              | Open-addressing. |          |
+| Insert / overwrite           | **O(1)** amort.       |                  |          |
+| Delete `del d[k]` / `pop(k)` | **O(1)** amort.       |                  |          |
+| Iterate `for k in d:`        | **O(n)**              |                  |          |
+| `len(d)`                     | **O(1)**              |                  |          |
+| `copy()` (shallow)           | **O(n)** time & space |                  |          |
+| Merge \`d1                   | d2\`                  | **O(len(d2))**   | Py 3.9+. |
+
+Worst-case (deliberate hash collisions) ↗ O(n).
+
+---
+
+### 4  *set / frozenset*  ( dict-without-values )
+
+Same table as `dict` but keys only.
+Extra: `s1 & s2`, `s1 | s2`, `s1 - s2` run in **O(min(len))**.
+
+---
+
+### 5  `collections.deque`  ( doubly-linked circular buffer )
+
+| Operation                                | Complexity             |
+| ---------------------------------------- | ---------------------- |
+| `append`, `appendleft`, `pop`, `popleft` | **O(1)**               |
+| `extend`, `extendleft`                   | **O(k)**               |
+| `rotate(k)`                              | **O(1)** pointer tweak |
+| Random index `dq[i]`                     | **O(n)** (walk).       |
+
+---
+
+### 6  Heap (`heapq`)
+
+| Operation        | Complexity                         |
+| ---------------- | ---------------------------------- |
+| `heappush(h, x)` | **O(log n)**                       |
+| `heappop(h)`     | **O(log n)**                       |
+| `heapify(lst)`   | **O(n)**                           |
+| `merge(*iters)`  | **O(total log p)**, *p* = # iters. |
+
+Space = `O(n)`.
+
+---
+
+### 7  `bisect` (binary-search)
+
+| Operation                 | Complexity                     |                     |
+| ------------------------- | ------------------------------ | ------------------- |
+| `bisect_left/right(a, x)` | **O(log n)**                   | `a` must be sorted. |
+| Insertion via `insort`    | **O(n)\`** shift + log search. |                     |
+
+---
+
+### 8  Strings (`str`)  ( immutable byte/UTF-8 seq )
+
+| Operation            | Complexity                                                                               |                       |
+| -------------------- | ---------------------------------------------------------------------------------------- | --------------------- |
+| `s[i]`               | **Θ(1)**                                                                                 |                       |
+| Slice `sub = s[a:b]` | **O(k)** time & space                                                                    |                       |
+| Concatenate `a+b`    | **O(len(a)+len(b))**                                                                     | `+=` on loop ↗ O(n²). |
+| `len(s)`             | **O(1)**                                                                                 |                       |
+| `s.find(sub)` / `in` | \*\*O(n·m)`** Naïve; CPython uses efficient Boyer-Moore–Horspool so ≤ `O(n+m)\` average. |                       |
+| `s.split()`          | **O(n)**                                                                                 |                       |
+| `.replace(old, new)` | **O(n)\`**                                                                               |                       |
+
+---
+
+### 9  High-level helpers
+
+| Function                            | Complexity                                | Notes             |
+| ----------------------------------- | ----------------------------------------- | ----------------- |
+| `sorted(iterable)`                  | **O(n log n)** Timsort, stable.           |                   |
+| `sum(list)`                         | **O(n)**                                  | Numeric addition. |
+| `min(iter)` / `max(iter)`           | **O(n)**                                  |                   |
+| `all(iter)` / `any(iter)`           | **O(n)** short-circuit.                   |                   |
+| Comprehensions `[f(x) for x in it]` | **O(n)** time & space.                    |                   |
+| `map`, `filter`                     | Produce lazy iterator **O(1)** each step. |                   |
+| `enumerate`, `zip`                  | Iterator, per-step **O(1)**.              |                   |
+
+---
+
+### 10  `collections.Counter`
+
+| Operation              | Complexity                               |
+| ---------------------- | ---------------------------------------- |
+| Build `Counter(seq)`   | **O(n)**                                 |
+| Lookup / update `c[x]` | **O(1)**                                 |
+| `c.most_common(k)`     | **O(n log k)\`** if k < n, else n log n. |
+
+---
+
+### 11  Math & big-ints
+
+| Operation              | Complexity                                                                                |
+| ---------------------- | ----------------------------------------------------------------------------------------- |
+| `+`, `-`, `*` on `int` | **O(1)** for ≤ 64-bit; arbitrary precision: `O(n)` add/sub, `O(n log n)` mul (Karatsuba+) |
+| `pow(a, b, mod)`       | **O(log b)\`** (right-to-left binary exponentiation).                                     |
+| `math.gcd(a,b)`        | **O(log min(a,b))**.                                                                      |
+
+---
+
+### 12  Copying / serialization
+
+| Operation            | Complexity                                               |
+| -------------------- | -------------------------------------------------------- |
+| `copy.copy(obj)`     | Shallow: depends on container (`O(n)` for lists, dicts). |
+| `copy.deepcopy(obj)` | Walk entire graph → **O(total nodes)**.                  |
+| `pickle.dumps(obj)`  | Same as deep copy + encoding cost.                       |
+
+---
+
+## Rules of Thumb
+
+1. **List is fast for tail operations**, slow for head/ middle inserts.
+2. **Dict / set give O(1) average lookup/insert/delete** but eat extra memory (\~ 1.5 × elements).
+3. **`for-in` always O(n)** no matter容器；`in` on list/tuple O(n), on set/dict O(1).
+4. **Immutable objects (`tuple`, `str`) copy on slice / concat → O(k)**.
+5. If you need **queue or stack at both ends**, use `collections.deque`.
+6. Sorting dominates: whenever you see `sorted()` or `list.sort()`, think **n log n**.
+
+---
+
+> These costs reflect CPython’s current implementation.  Other interpreters (PyPy, Jython) share the same *big-O* but may differ in constant factors or worst-case guarantees.
