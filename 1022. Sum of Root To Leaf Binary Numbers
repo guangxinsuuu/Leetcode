@@ -1,0 +1,54 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sumRootToLeaf(self, root: Optional[TreeNode]) -> int:
+        self.rot = []
+        self.res = 0
+        self.traverse(root)
+        return self.res
+
+
+    # def traverse(self, root):
+    #     if root is None:
+    #         return 
+        
+    #     self.rot.append(root.val)
+    #     if root.left is None and root.right is None:
+    #         cnt = -1
+    #         while self.rot:
+    #             cnt += 1
+    #             last = self.rot.pop()  #   while self.rot: self.rot.pop() 会把刚刚走过的那条路径上的所有节点值都弹出，导致后面再去递归 self.traverse(root.left) 或者 self.traverse(root.right) 时，路径栈变成空的，递归根本就没法正确工作
+    #             if last == 1:
+    #                 self.res += 2**(cnt)
+    #     self.traverse(root.left)
+    #     self.traverse(root.right)
+
+
+
+    def traverse(self, root):
+        if root is None:
+            return
+        
+        # 1) 进栈
+        self.rot.append(root.val)
+        
+        # 2) 若是叶子节点，则根据当前 self.rot 计算一次二进制值并累加到 self.res
+        if root.left is None and root.right is None:
+            cnt = 0
+            val = 0
+            # 从头到尾累加：最高位在 rot[0]
+            for bit in self.rot:
+                val = (val << 1) | bit           #########i am still not understand
+            self.res += val
+        
+        # 3) 递归左右
+        self.traverse(root.left)
+        self.traverse(root.right)
+        
+        # 4) 回滚，上一步 append 的元素出栈
+        self.rot.pop()
+        
