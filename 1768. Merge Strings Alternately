@@ -1,0 +1,15 @@
+class Solution:
+    def mergeAlternately(self, word1: str, word2: str) -> str:
+        res = []
+        i = 0
+        j = 0
+        while i < len(word1) and j < len(word2):             #O(M+N), my first idea was using double pointers
+            res.append(word1[i])
+            res.append(word2[j])
+            i+=1
+            j+=1
+        if len(word1)<len(word2):
+            res.append(word2[j:])
+        if len(word1)>len(word2):
+            res.append(word1[i:])
+        return ''.join(res)
