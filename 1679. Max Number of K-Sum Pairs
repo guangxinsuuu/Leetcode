@@ -1,0 +1,14 @@
+class Solution:
+    def maxOperations(self, nums: List[int], k: int) -> int:
+        dict_con = {}
+        res = 0
+        for num in nums:
+            if (k-num) not in dict_con or dict_con[k-num] == 0:            # both should be considered
+                dict_con[num] = dict_con.get(num,0)+1                      #if exist +=1, otherwise 0
+            else:
+                dict_con[k-num]-=1
+                res+=1
+        return res
+
+
+
