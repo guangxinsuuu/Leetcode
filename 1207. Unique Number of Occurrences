@@ -1,0 +1,16 @@
+class Solution:
+    def uniqueOccurrences(self, arr: List[int]) -> bool:
+        freq = {}
+
+        for i in arr:
+            freq[i] = freq.get(i,0)+1
+        res = set()
+        for num in freq.values():    #dict.values()
+            if num in res:
+                return False
+            res.add(num)              #add
+        return True
+
+
+
+        
