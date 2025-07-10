@@ -1,0 +1,49 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def addOneRow(self, root: Optional[TreeNode], val: int, depth: int) -> Optional[TreeNode]:
+
+        self.depth = depth
+        self.cur_d = 1
+        self.val = val
+
+        if self.depth == 1:
+            new_root = TreeNode(self.val)
+            new_root.left = root
+            return new_root
+
+        self.traverse(root)
+
+        return root
+        
+
+
+    def traverse(self, root):
+        if root is None:
+            return
+        
+        
+        
+        if self.depth == self.cur_d + 1:
+            new_root_1 = TreeNode(self.val)
+            new_root_2 = TreeNode(self.val)
+            old_left = root.left                                  ## this part is pretty important
+            old_right = root.right                                # we must define two new variables, otherwise, root left and right will point to the same 'variable'
+            root.left, root.right = new_root_1, new_root_2
+            root.left.left = old_left
+            root.right.right = old_right
+        self.cur_d += 1
+        self.traverse(root.left)
+        self.traverse(root.right)
+        self.cur_d -= 1
+        
+
+
+        
+  
+
+        
