@@ -1,0 +1,21 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+        self.total = 0
+        self.traverse(root, is_left=False)
+        return self.total
+
+    def traverse(self, node, is_left):
+        if not node:
+            return
+        # 如果是叶子，并且来自左子树，就累加它的值
+        if not node.left and not node.right and is_left:
+            self.total += node.val
+        # 继续遍历左右子节点，传入对应的 is_left 标志
+        self.traverse(node.left,  is_left=True)
+        self.traverse(node.right, is_left=False)
