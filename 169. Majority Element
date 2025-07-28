@@ -1,0 +1,27 @@
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        # load_dict = dict()
+
+        # for num in nums:
+        #     if num in load_dict:
+        #         load_dict[num] += 1
+        #     else:
+        #         load_dict[num] = load_dict.get(num,1)
+        
+        # for key in load_dict:
+        #     if load_dict[key] > len(nums)//2:
+        #         return key
+
+        ####### for the follow up
+        cnt = 0
+        result = None
+
+        for num in nums:
+            if cnt == 0:
+                result = num
+            if num == result:
+                cnt += 1
+            if num != result:
+                cnt -= 1          #cnt += (1 if num == result else -1)
+        return result
+        
