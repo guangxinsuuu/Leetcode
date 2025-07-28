@@ -1,0 +1,29 @@
+class Solution:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        """
+        Do not return anything, modify nums1 in-place instead.
+        """
+        point1, point2, point3 = m-1, n-1, m+n-1
+        while point1 > -1 and point2 > -1:
+            if nums1[point1] > nums2[point2]:
+                nums1[point3] = nums1[point1]
+                point1 -= 1
+            
+            else:
+                nums1[point3] = nums2[point2]
+                point2 -= 1
+            point3 -= 1
+
+        # if point1 < 0:
+        #     nums1[m:point3] = nums2[:point2] 
+        # if point2<0:
+        #     nums1[m:point3] = nums1[:point1]
+        # If nums2 still has elements left, copy them over
+        if point2 >= 0:
+            nums1[:point2 + 1] = nums2[:point2 + 1]
+
+            #一旦 point2 < 0，表示 nums2 已经全部合并进 nums1 了，这时候：
+
+#nums1 剩下的值已经在它自己的前面（前 point1 个）了。
+
+#不需要额外操作，因为它们本身就在 nums1 里，顺序已经对了
