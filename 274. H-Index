@@ -1,0 +1,29 @@
+class Solution:
+    def hIndex(self, citations: List[int]) -> int:
+        
+        sort_c = sorted(citations) #0 1 3 5 6                  O(NlogN) 更好的是 桶排序
+
+        length = len(sort_c)
+
+        # if length == 1 and sort_c[0] == 0:
+        #     return 0
+
+
+
+        for i,num in enumerate(sort_c):
+            # if num > length-i:
+            #     return i
+        #     if (length-i) < num and length > 1:
+        #         return sort_c[i-1]
+        # return len(citations)
+            for i in range(length):
+                h = length - i
+                if sort_c[i] >= h:
+                    return h
+
+        return 0
+        #0 1 3 5 6
+        #0，5
+        #1，5-1
+        #3，5-2 -》
+        #5，5-3
